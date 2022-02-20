@@ -1,7 +1,7 @@
 # Based Official Dockerfile
 # https://github.com/docker-library/redmine/blob/282e53760ea23d3415bb1e45d2a0d930f47575c3/4.2/alpine/Dockerfile
 
-FROM ruby:2.7.4-alpine3.14
+FROM ruby:2.7.5-alpine3.14
 LABEL title="redmine-git-hosting"
 
 ENV RAILS_ENV production
@@ -38,17 +38,16 @@ RUN cd /opt \
 	&& git clone https://github.com/AlphaNodes/additionals.git \
 	&& git clone https://github.com/jbox-web/redmine_git_hosting.git \
 	&& cd redmine_git_hosting/ \
-	&& git checkout 6541484 \
 	&& cd /opt/redmine \
 	&& bundle config --local without 'development test' \
 	&& bundle install \
 	&& apk del --no-cache .build-deps \
+    && mkdir /opt/ssh_keys \
+	&& ssh-keygen -m PEM -N '' -f /opt/ssh_keys/redmine_gitolite_admin_id_rsa \
+	&& ssh-keygen -A \
 	# Theme Install
 	&& cd /opt/redmine/public/themes \
-	&& git clone https://github.com/mrliptontea/PurpleMine2.git redmine-theme-purplemine2 \
-	&& mkdir /opt/ssh_keys \
-	&& ssh-keygen -m PEM -N '' -f /opt/ssh_keys/redmine_gitolite_admin_id_rsa \
-	&& ssh-keygen -A
+	&& git clone https://github.com/mrliptontea/PurpleMine2.git redmine-theme-purplemine2
 
 VOLUME /opt/redmine/files
 VOLUME /var/lib/git
