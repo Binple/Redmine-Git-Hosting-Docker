@@ -14,9 +14,9 @@ echo "production:" > /opt/redmine/config/database.yml
 echo "  adapter: postgresql" >> /opt/redmine/config/database.yml
 echo "  host: $DB_HOST" >> /opt/redmine/config/database.yml
 echo "  port: $DB_PORT" >> /opt/redmine/config/database.yml
-echo "  database: $DB_DATABASE" >> /opt/redmine/config/database.yml
+echo "  database: $DB_NAME" >> /opt/redmine/config/database.yml
 echo "  username: $DB_USER" >> /opt/redmine/config/database.yml
-echo "  password: \"$DB_PASSWORD\"" >> /opt/redmine/config/database.yml
+echo "  password: \"$DB_PASS\"" >> /opt/redmine/config/database.yml
 echo "  encoding: utf8" >> /opt/redmine/config/database.yml
 
 bundle check || bundle install
