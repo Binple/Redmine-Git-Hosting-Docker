@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -Eeo pipefail
+chown -R git:git /var/lib/git/repositories
 # gitolite setting
 if [ ! -d /var/lib/git/.gitolite ]; then
 	chown git:git /var/lib/git
