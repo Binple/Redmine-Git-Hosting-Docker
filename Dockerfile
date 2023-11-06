@@ -6,8 +6,8 @@ LABEL title="redmine-git-hosting"
 
 ENV RAILS_ENV production
 ENV REDMINE_HOME /opt/redmine
-ENV REDMINE_VERSION 4.2.7
-ENV REDMINE_DOWNLOAD_SHA256 ed4be03b5ab63c2641a87db8978739dd997c0f646bfa1010ac9e5210c343724e
+ENV REDMINE_VERSION 5.0.6
+ENV REDMINE_DOWNLOAD_SHA256 488fe08f37a8eb1011415922a8ea743b7f38d8a7a5f8822950a34a375dcf08ee
 ENV BUNDLE_FORCE_RUBY_PLATFORM 1
 
 RUN apk add --no-cache \
@@ -36,12 +36,13 @@ RUN set -eux; \
 	# Wysiwyg Editor
 	git clone https://github.com/taqueci/redmine_wysiwyg_editor.git; \
 	# Redmine Git Hosting Plugin Install
-	git clone --branch 3.0.5.2 https://github.com/AlphaNodes/additionals.git; \
+	git clone -b stable https://github.com/alphanodes/additionals.git; \
 	git clone https://github.com/jbox-web/redmine_git_hosting.git; \
 	cd redmine_git_hosting/; \
-    #git checkout 5.0.0; \
+    git checkout 6.0.1; \
 	cd /opt/redmine; \
-	bundle config --local without 'development test'; \
+	bundle config set --local without 'development:test'; \
+    bundle config set --local build.rugged --with-ssh; \
 	bundle install; \
 	apk del --no-cache .build-deps; \
     mkdir /opt/ssh_keys; \
