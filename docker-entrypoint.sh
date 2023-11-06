@@ -21,6 +21,11 @@ echo "  username: $DB_USER" >> /opt/redmine/config/database.yml
 echo "  password: \"$DB_PASS\"" >> /opt/redmine/config/database.yml
 echo "  encoding: utf8" >> /opt/redmine/config/database.yml
 
+sed -i "1d" /opt/redmine/config/additional_environment.rb
+echo "#config.logger = Logger.new(STDOUT)" > /opt/redmine/config/additional_environment.rb
+echo "config.logger = Logger.new('./log/production.log', 5, 1024000)" >> /opt/redmine/config/additional_environment.rb
+echo "config.logger.level = Logger::ERROR" >> /opt/redmine/config/additional_environment.rb
+
 bundle check || bundle install
 
 if [ ! -s /opt/redmine/config/secrets.yml ]; then
